@@ -40,6 +40,7 @@ while True:
         print("Error: Invalid input. Please enter 'y' or 'n'.")
 
 kurtAngleInTheMix = False
+
 while numberOfWrestlers > 2:
     userInput = input("Is Kurt Angle in the mix? (y/n)\n").strip().lower()
 
