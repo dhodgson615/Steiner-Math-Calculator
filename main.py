@@ -1,101 +1,70 @@
-while True:
-    try:
-        numberOfWrestlers = int(
-            input("How many wrestlers are at Sacrifice?\n"))
-
-        if numberOfWrestlers < 2:
-            print(
-                "Error: Not enough wrestlers for Scott Steiner and Samoa Joe to be at Sacrifice."
-            )
-            continue
-        break
-    except ValueError:
-        print("Error: Please enter a valid number.")
-
-while True:
-    userInput = input(
-        "Are you a genetic freak and not normal? (y/n)\n").strip().lower()
-
-    if userInput == "y":
-        geneticFreak = True
-        break
-    elif userInput == "n":
-        geneticFreak = False
-        break
-    else:
-        print("Error: Invalid input. Please enter 'yes' or 'no'.")
-
-while True:
-    userInput = input(
-        "Is Samoa Joe a genetic freak and not normal? (y/n)\n").strip(
-        ).lower()
-
-    if userInput == "y":
-        samoaJoeGeneticFreak = True
-        break
-    elif userInput == "n":
-        samoaJoeGeneticFreak = False
-        break
-    else:
-        print("Error: Invalid input. Please enter 'y' or 'n'.")
-
-kurtAngleInTheMix = False
-
-while numberOfWrestlers > 2:
-    userInput = input("Is Kurt Angle in the mix? (y/n)\n").strip().lower()
-
-    if userInput == "y":
-        kurtAngleInTheMix = True
-        break
-    elif userInput == "n":
-        kurtAngleInTheMix = False
-        break
-    else:
-        print("Error: Invalid input. Please enter 'y' or 'n'.")
-
-kurtAngleIsGonnaTry = False
-if kurtAngleInTheMix:
+def get_integer_input(prompt, error_message):
     while True:
+        try:
+            value = int(input(prompt))
+            return value
+        except ValueError:
+            print(error_message)
 
-        userInput = input(
-            "Is Kurt Angle even gonna try? (y/n)\n").strip().lower()
-        if userInput == "y":
-            kurtAngleIsGonnaTry = True
-            break
-        elif userInput == "n":
-            kurtAngleIsGonnaTry = False
-            break
+
+def get_yes_no_input(prompt, error_message):
+    while True:
+        user_input = input(prompt).strip().lower()
+        if user_input == "y":
+            return True
+        elif user_input == "n":
+            return False
         else:
-            print("Error: Invalid input. Please enter 'y' or 'n'.")
+            print(error_message)
 
-chancesOfWinning = 100 / numberOfWrestlers
-samoaJoeChancesOfWinning = chancesOfWinning
 
-if geneticFreak:
-    chancesOfWinning += 25
-    samoaJoeChancesOfWinning -= 25
+def main():
+    number_of_wrestlers = get_integer_input("How many wrestlers are at Sacrifice?\n", "Error: Please enter a valid number.")
 
-if samoaJoeGeneticFreak:
-    chancesOfWinning -= 25
-    samoaJoeChancesOfWinning += 25
+    if number_of_wrestlers < 2:
+        print("Error: Not enough wrestlers for Scott Steiner and Samoa Joe to be at Sacrifice.")
+        return
 
-if kurtAngleInTheMix and not kurtAngleIsGonnaTry:
-    chancesOfWinning += 100 / numberOfWrestlers
+    genetic_freak = get_yes_no_input("Are you a genetic freak and not normal? (y/n)\n", "Error: Invalid input. Please enter 'y' or 'n'.")
 
-chanceToAdd = 100 / numberOfWrestlers
+    samoa_joe_genetic_freak = get_yes_no_input("Is Samoa Joe a genetic freak and not normal? (y/n)\n", "Error: Invalid input. Please enter 'y' or 'n'.")
 
-if geneticFreak and not samoaJoeGeneticFreak:
-    chanceToAdd += 0.5 * chanceToAdd
+    kurt_angle_in_the_mix = number_of_wrestlers > 2 and get_yes_no_input("Is Kurt Angle in the mix? (y/n)\n", "Error: Invalid input. Please enter 'y' or 'n'.")
 
-if samoaJoeGeneticFreak and not geneticFreak:
-    chanceToAdd -= 0.5 * chanceToAdd
+    kurt_angle_is_gonna_try = False
+    if kurt_angle_in_the_mix:
+        kurt_angle_is_gonna_try = get_yes_no_input("Is Kurt Angle even gonna try? (y/n)\n", "Error: Invalid input. Please enter 'y' or 'n'.")
 
-chancesOfWinning += chanceToAdd
-print(f"\nChances of winning at Sacrifice: {chancesOfWinning:.2f}%")
-print(f"Samoa Joe's chances of winning at Sacrifice: {samoaJoeChancesOfWinning:.2f}%")
-if kurtAngleInTheMix:
-    print(f"Kurt Angle's chances of winning at Sacrifice: {(100 - chancesOfWinning - samoaJoeChancesOfWinning):.2f}%")
+    chances_of_winning = 100 / number_of_wrestlers
+    samoa_joe_chances_of_winning = chances_of_winning
 
-if chancesOfWinning > 100:
-    print("\nThe numbers don’t lie, and they spell disaster for you at Sacrifice!")
-  
+    if genetic_freak:
+        chances_of_winning += 25
+        samoa_joe_chances_of_winning -= 25
+
+    if samoa_joe_genetic_freak:
+        chances_of_winning -= 25
+        samoa_joe_chances_of_winning += 25
+
+    if kurt_angle_in_the_mix and not kurt_angle_is_gonna_try:
+        chances_of_winning += 100 / number_of_wrestlers
+
+    chance_to_add = 100 / number_of_wrestlers
+
+    if genetic_freak and not samoa_joe_genetic_freak:
+        chance_to_add += 0.5 * chance_to_add
+
+    if samoa_joe_genetic_freak and not genetic_freak:
+        chance_to_add -= 0.5 * chance_to_add
+
+    chances_of_winning += chance_to_add
+
+    print(f"\nChances of winning at Sacrifice: {chances_of_winning:.2f}%")
+    print(f"Samoa Joe's chances of winning at Sacrifice: {samoa_joe_chances_of_winning:.2f}%")
+
+    if kurt_angle_in_the_mix:
+        kurt_angle_chances_of_winning = 100 - chances_of_winning - samoa_joe_chances_of_winning
+        print(f"Kurt Angle's chances of winning at Sacrifice: {kurt_angle_chances_of_winning:.2f}%")
+
+    if chances_of_winning > 100:
+        print("\nThe numbers don’t lie, and they spell disaster for you at Sacrifice!")
