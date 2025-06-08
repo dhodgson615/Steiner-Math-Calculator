@@ -68,3 +68,6 @@ def main():
 
     if chances_of_winning > 100:
         print("\nThe numbers don’t lie, and they spell disaster for you at Sacrifice!")
+
+if __name__ == "__main__":
+    main()
